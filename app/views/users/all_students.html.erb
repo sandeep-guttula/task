@@ -1,0 +1,20 @@
+<h1>All Students</h1>
+<!-- View -->
+<table>
+  <tr>
+    <th>Student ID</th>
+    <th>Student Name</th>
+    <th>Student Email</th>
+    <th>Subjects</th>
+    <th>Teachers</th>
+  </tr>
+  <% @students.each do |student| %>
+    <tr>
+      <td><%= student.id %></td>
+      <td><%= student.name %></td>
+      <td><%= student.email %></td>
+      <td><%= student.subjects.map(&:name).join(', ') %></td>
+      <td><%= student.teachers.map(&:name).join(', ') %></td>
+    </tr>
+  <% end %>
+</table>

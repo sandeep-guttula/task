@@ -1,0 +1,41 @@
+<% if current_user && current_user.role == "teacher" %>
+    <%= link_to "Add new student", new_student_users_path, class:"btn btn-primary" %>
+    <h1>
+        Your Subjects 
+        <% @subjects.each do |subject| %>
+            | <%= subject.name %> |
+        <% end %>
+    </h1>
+<% end %>
+
+<% if @my_students %>
+    <h2>Students</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+                <th>Subject</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <% @my_students.each do |student| %>
+                <tr>
+                    <td><%= student.id %></td>
+                    <td><%= student.name %></td>
+                    <td><%= student.email %></td>
+                    <td>
+                        <%= link_to "Show", user_path(student), class:"btn btn-primary" %>
+                        <%= link_to "Delete", user_path(student), method: :delete, data: { confirm: "Are you sure?" }, class:"btn btn-danger" %>
+                    </td>
+                    <td>
+                        <%= student.subject_name %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>

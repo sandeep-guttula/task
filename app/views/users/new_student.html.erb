@@ -1,0 +1,29 @@
+<div class="w-100 h-100" >
+    <div class="d-flex justify-content-center d-flex align-items-center flex-column" >
+        <h2>Add new student</h2>
+        <%= form_for @user, url: create_student_users_path do |f| %>
+        <div class="form-group">
+            <%= f.label :name %>
+            <%= f.text_field :name, class: "form-control" %>
+        </div>
+        <div class="form-group">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: "form-control" %>
+        </div>
+        <div class="form-group">
+            <%= f.label :password %>
+            <%= f.password_field :password, class: "form-control" %>
+        </div>
+        <div class="form-group">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, class: "form-control" %>
+        </div>
+        <div class="form-group">
+            <%= f.hidden_field :role , value: "student" %>
+        </div>
+        <%# add a dropdown to select the subject %>
+        <%= f.submit "Create Student", class: "btn btn-primary" %>
+        <% end %>
+        <%= link_to "Back", users_path , class:"btn btn-secondary" %>
+    </div>
+</div>
