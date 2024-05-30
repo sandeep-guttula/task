@@ -1,20 +1,36 @@
 <h1>All Students</h1>
 <!-- View -->
-<table>
-  <tr>
-    <th>Student ID</th>
-    <th>Student Name</th>
-    <th>Student Email</th>
-    <th>Subjects</th>
-    <th>Teachers</th>
-  </tr>
-  <% @students.each do |student| %>
+
+<% @students.each do |student| %>
+    <%= student.inspect %> <br>
+<% end %>
+
+<table class="table">
+  <thead>
     <tr>
-      <td><%= student.id %></td>
-      <td><%= student.name %></td>
-      <td><%= student.email %></td>
-      <td><%= student.subjects.map(&:name).join(', ') %></td>
-      <td><%= student.teachers.map(&:name).join(', ') %></td>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Teacher Name</th>
+        <th scope="col">Actions</th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @students.each do |student| %>
+      <tr>
+        <td><%= student.id %></td>
+        <td><%= student.name %></td>
+        <td><%= student.email %></td>
+        <td><%= student.subject_name %></td>
+        <td><%= student.teacher_name %></td>
+        <td>
+            <%= link_to "Show", show_student_users_path(student.id), class:"btn btn-primary" %>
+            <% if student.teacher_id == current_user.id %>
+                <%= button_to "Delete", destroy_student_users_path(student.id), method: :delete, class:"btn btn-danger" %>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

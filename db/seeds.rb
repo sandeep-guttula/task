@@ -55,3 +55,10 @@
 # StudentTeacherSubject.create(teacher_id: 1, student_id: 6, subject_id: 1)
 # StudentTeacherSubject.create(teacher_id: 1, student_id: 7, subject_id: 2)
 # StudentTeacherSubject.create(teacher_id: 1, student_id: 8, subject_id: 3)
+
+
+StudentTeacherSubject.create(teacher_id: 2, student_id: 9, subject_id: 1)
+StudentTeacherSubject.create(teacher_id: 2, student_id: 10, subject_id: 1)
+StudentTeacherSubject.create(teacher_id: 2, student_id: 11, subject_id: 5)
+StudentTeacherSubject.create(teacher_id: 2, student_id: 12, subject_id: 6)
+StudentTeacherSubject.create(teacher_id: 2, student_id: 15, subject_id: 6)

@@ -40,10 +40,21 @@ class UsersController < ApplicationController
   end
 
   def all_students
-    student_ids = StudentTeacherSubject.where(teacher_id: current_user.id).pluck(:student_id)
+    # SELECT u.name AS student_name, u.email, sts.teacher_id, t.name AS teacher_name, sts.subject_id, s.name AS subject_name, u.role
+    # FROM users u LEFT JOIN student_teacher_subjects sts ON u.id = sts.student_id
+    # LEFT JOIN subjects s ON s.id = sts.subject_id
+    # LEFT JOIN users t ON t.id = sts.teacher_id
+    # WHERE u.role = 'student';
 
-    @students = User.where(role: 'student').includes(:subjects, :teachers).all
+      # @students = User.where(role: 'student')
+      # .select('users.id, users.name as student_name, users.email, student_teacher_subjects.teacher_id, users.name as teacher_name, student_teacher_subjects.subject_id, subjects.name as subject_name, users.role')
+      # .joins('LEFT JOIN student_teacher_subjects ON users.id = student_teacher_subjects.student_id')
+      # .joins('LEFT JOIN subjects ON student_teacher_subjects.subject_id = subjects.id')
+      # .joins('LEFT JOIN users ON student_teacher_subjects.teacher_id = users.id')
 
+      @students = User.where(role: 'student').select('users.id, users.name , users.email, student_teacher_subjects.teacher_id, t.name as teacher_name, student_teacher_subjects.subject_id, subjects.name
+      as subject_name, users.role ').joins('LEFT JOIN student_teacher_subjects ON users.id = student_teacher_subjects.student_id').joins('LEFT JOIN subjects ON student_teacher_subjects.subject_id = subjects.
+     id').joins('LEFT JOIN users as t  ON student_teacher_subjects.teacher_id = t.id')
   end
 
   def new_student
@@ -55,10 +66,21 @@ class UsersController < ApplicationController
     student = User.new(user_params)
     student.role = "student"
     if student.save
+      StudentTeacherSubject.new(teacher_id: current_user.id, student_id: student.id, subject_id: params[:user][:id]).save
       redirect_to users_path, notice: "Student created successfully"
     else
-      render :new , notice: "Student creation failed"
+      render :new_student, notice: "Student creation failed"
     end
+  end
+
+  def show_student
+    @student = User.find_by(id: params[:id])
+  end
+
+  def destroy_student
+    student = User.find(params[:id])
+    student.destroy
+    redirect_to users_path, notice: "Student deleted successfully"
   end
 
 

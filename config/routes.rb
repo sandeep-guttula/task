@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     collection do
       get 'students/new', to: 'users#new_student', as: 'new_student'
       post 'students/create', to: 'users#create_student', as: 'create_student'
+      get 'students/:id', to: 'users#show_student', as: 'show_student'
+      delete 'students/:id', to: 'users#destroy_student', as: 'destroy_student'
     end
   end
 
