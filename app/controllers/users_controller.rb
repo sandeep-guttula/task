@@ -8,6 +8,8 @@ class UsersController < ApplicationController
     if current_user && current_user.role == "teacher"
       @subjects = get_current_teacher_subjects
       @my_students = get_current_teacher_students
+    elsif current_user && current_user.role == "student"
+      @my_teachers = get_current_students_teachers
     end
   end
 
@@ -84,6 +86,15 @@ class UsersController < ApplicationController
   end
 
 
+  def show_teacher
+    if current_user.role == "student"
+      @teacher = User.find_by(id: params[:id])
+    else
+      redirect_to users_path, notice: "You are not allowed to view this page"
+    end
+  end
+
+
 
   private
 
@@ -102,6 +113,15 @@ class UsersController < ApplicationController
     .select('users.id, users.name, users.email, student_teacher_subjects.subject_id, subjects.name as subject_name')
     .joins('JOIN student_teacher_subjects ON users.id = student_teacher_subjects.student_id')
     .joins('JOIN subjects ON student_teacher_subjects.subject_id = subjects.id')
+  end
+
+  def get_current_students_teachers
+    teacher_ids = StudentTeacherSubject.where(student_id: current_user.id).pluck(:teacher_id)
+    User.where(role: 'teacher', id: teacher_ids)
+    .select('users.id, users.name, users.email, student_teacher_subjects.subject_id, subjects.name as subject_name')
+    .joins('JOIN student_teacher_subjects ON users.id = student_teacher_subjects.teacher_id')
+    .joins('JOIN subjects ON student_teacher_subjects.subject_id = subjects.id').distinct
+
   end
 
 end

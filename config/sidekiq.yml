@@ -1,0 +1,5 @@
+# config/sidekiq.yml
+:verbose: true
+:logfile: ./log/development.log
+:redis:
+  url: redis://localhost:6379/

@@ -1,0 +1,12 @@
+<% if current_user && current_user.role == "student" %>
+    <% if @teacher %>
+        <h1>Your teacher</h1>
+        <h1><%= @teacher.id  %></h1>
+        <h1><%= @teacher.name %></h1>
+        <h1><%= @teacher.email %></h1>
+    <% end %>
+<% else %>
+    <h1>
+        login as student to see your teacher
+    </h1>
+<% end %>

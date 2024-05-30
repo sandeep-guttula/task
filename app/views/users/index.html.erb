@@ -2,7 +2,6 @@
     <%= link_to "Add new student", new_student_users_path, class:"btn btn-primary" %>
     <%= link_to "View All students -> ", user_all_students_path, class:"btn btn-primary" %>
 
-    <%= @subjects.inspect %>
     <h1>
         Your Subjects 
         <% @subjects.each do |subject| %>
@@ -11,34 +10,71 @@
     </h1>
 <% end %>
 
-<% if @my_students %>
-    <h2>Students</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-                <th>Subject</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <% @my_students.each do |student| %>
+<% if current_user && current_user.role == "teacher"  %>
+    <% if @my_students %>
+        <h2>Students</h2>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td><%= student.id %></td>
-                    <td><%= student.name %></td>
-                    <td><%= student.email %></td>
-                    <td>
-                        <%= link_to "Show", show_student_users_path(student.id), class:"btn btn-primary" %>
-                        <%= button_to "Delete", destroy_student_users_path(student.id), method: :delete, data: { confirm: "Are you sure?" }, class:"btn btn-danger" %>
-                    </td>
-                    <td>
-                        <%= student.subject_name %>
-                    </td>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                    <th>Subject</th>
+                    
                 </tr>
-            <% end %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% @my_students.each do |student| %>
+                    <tr>
+                        <td><%= student.id %></td>
+                        <td><%= student.name %></td>
+                        <td><%= student.email %></td>
+                        <td>
+                            <%= link_to "Show", show_student_users_path(student.id), class:"btn btn-primary" %>
+                            <%= button_to "Delete", destroy_student_users_path(student.id), method: :delete, data: { confirm: "Are you sure?" }, class:"btn btn-danger" %>
+                        </td>
+                        <td>
+                            <%= student.subject_name %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% end %>
+
+<% elsif current_user && current_user.role == "student" %>
+    <h1>Hello Student</h1>
+    <%= @my_teachers.inspect %>
+    <% if @my_teachers %>
+        <h2>Teachers</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                    <th>Subject</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @my_teachers.each do |teacher| %>
+                    <tr>
+                        <td><%= teacher.id %></td>
+                        <td><%= teacher.name %></td>
+                        <td><%= teacher.email %></td>
+                        <td>
+                            <%= link_to "Show", show_teacher_users_path(teacher.id), class:"btn btn-primary" %>
+                        </td>
+                        <td>
+                            <%= teacher.subject_name %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% end %>
+<% else %>
+    <h1>Please Login first</h1>
 <% end %>

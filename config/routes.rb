@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       post 'students/create', to: 'users#create_student', as: 'create_student'
       get 'students/:id', to: 'users#show_student', as: 'show_student'
       delete 'students/:id', to: 'users#destroy_student', as: 'destroy_student'
+      get 'teachers/:id', to: 'users#show_teacher', as: 'show_teacher'
     end
   end
 

@@ -10,7 +10,6 @@
     <div>
 
         <% if current_user %>
-            <%= Current.user.inspect %>
             <%= current_user.name %>
             <%= button_to "Log Out", user_session_path(current_user.id), method: :delete, class:"btn btn-danger" %>
         <% else %>
