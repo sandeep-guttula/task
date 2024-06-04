@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+
+  before_action :authorize_teacher!, only: [:new_student, :create_student, :all_students, :show_student, :destroy_student]
+
+  STUDENTS_PER_PAGE = 3
+
   def new
     @user = User.new
   end
@@ -8,6 +13,7 @@ class UsersController < ApplicationController
     if current_user && current_user.role == "teacher"
       @subjects = get_current_teacher_subjects
       @my_students = get_current_teacher_students
+      @
     elsif current_user && current_user.role == "student"
       @my_teachers = get_current_students_teachers
     end
@@ -122,6 +128,12 @@ class UsersController < ApplicationController
     .joins('JOIN student_teacher_subjects ON users.id = student_teacher_subjects.teacher_id')
     .joins('JOIN subjects ON student_teacher_subjects.subject_id = subjects.id').distinct
 
+  end
+
+  def authorize_teacher!
+    if current_user.role != "teacher"
+      redirect_to users_path, alert: "You are not allowed to view that page"
+    end
   end
 
 end
